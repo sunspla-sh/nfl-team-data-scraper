@@ -14,6 +14,10 @@ To get newer, potentially updated data:
 
 Sample Player Object:  
 `{"player":"Zach Allen","no":"94","pos":"DE","status":"ACT","height":"77","weight":"285","experience":"4","college":"Boston College","team":"arizona cardinals"}`  
+   
+---  
+  
+#### WARNING:
   
 If NFL.com changes the structure of their website, it is highly likely that this scraper will no longer function correctly.  
   
