@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const dateString = (new Date).toDateString().split(' ').slice(1).join('-').toLowerCase()
 let teamUrlArray = [];
+let teamFileNamesArray = [];
 let currentTeamIndex = 0;
 
 
@@ -22,7 +23,7 @@ async function getTeamUrls(page){
 
   console.log('Found team urls:');
   console.log(teamUrlArray);
-
+  
   page.emit('foundTeamArray');
 
 }
@@ -66,19 +67,38 @@ async function getTeamJson(page, browser){
     const writeData = JSON.stringify(playerArray);
 
     const teamNameForFile = teamName.split(' ').join('-');
+    teamFileNamesArray.push(teamNameForFile);
 
     fs.writeFileSync(`team-data-${dateString}/${teamNameForFile}.json`, writeData);
 
     currentTeamIndex += 1;
 
     if(currentTeamIndex >= teamUrlArray.length){
-      console.log(`${currentTeamIndex} - ${teamName.length} players successfully parsed from page.`);
+      console.log(`${currentTeamIndex} - ${playerArray.length} players successfully parsed from page.`);
       console.log(`${currentTeamIndex} - Finished generating ${teamName.toUpperCase()} json file.`);
       console.log(`FINISHED - No more teams in the array.`);
+      console.log(`Now closing headless Puppeteer browser...`);
       await browser.close();
+      console.log(`Now combining all teams into one teams.json file...`);
+      const allJsonTeams = [];
+      for(let i = 0; i < teamFileNamesArray.length; i++){
+        allJsonTeams.push(fs.promises.readFile(`team-data-${dateString}/${teamFileNamesArray[i]}.json`));
+      }
+      Promise.all(allJsonTeams)
+        .then(twoDimensionalArrayOfTeams => {
+          const jsonToWrite = {};
+          twoDimensionalArrayOfTeams.forEach((team, index) => {
+            jsonToWrite[teamFileNamesArray[index]] = JSON.parse(team);
+          });
+          fs.writeFileSync(`team-data-${dateString}/teams.json`, JSON.stringify(jsonToWrite));
+        })
+        .catch(err => {
+          console.log(`ERROR - ${err}`);
+          console.log(`Error when merging teams into single teams.json file`)
+        });
     } else {
       const waitRandomSeconds = Math.floor(Math.random() * 31);
-      console.log(`${currentTeamIndex} - ${teamName.length} players successfully parsed from page.`);
+      console.log(`${currentTeamIndex} - ${playerArray.length} players successfully parsed from page.`);
       console.log(`${currentTeamIndex} - Finished generating ${teamName.toUpperCase()} json file.`);
       console.log(`${currentTeamIndex} - Waiting ${waitRandomSeconds} seconds before loading next team page...`);
       setTimeout(async () => {
