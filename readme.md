@@ -9,7 +9,8 @@ To get newer, potentially updated data:
 - Scraper will politely wait between 0 to 30 seconds before loading and scraping each team page
 - One json file per team will be outputted in a `/team-data-${yourCurrentDate}` folder
 - Each json file contains an array of objects representing players with the following keys `player no pos status height weight experience college team`
-- If the scraper did not find data for a given key, the associated value will be `null`  
+- If the scraper did not find data for a given key, the associated value will be `null`
+- Finally, a `teams.json` file will be outputted in the `/team-data-${yourCurrentDate}` containing all teams and players
 
 
 Sample Player Object:  
