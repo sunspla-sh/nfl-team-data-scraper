@@ -1,6 +1,20 @@
 # NFL TEAM DATA SCRAPER
 
+#### WARNING:
+  
+If NFL.com changes the structure of their website, it is highly likely that this scraper will no longer function correctly.  
+  
+It relies upon specific CSS selectors to accurately find the data within the team roster pages.
+
+---
+
+#### DESCRIPTION:
+
 Exactly like it sounds. Old data is currently included in the `/team-data` folder.  
+
+---
+
+#### HOW TO USE:
 
 To get newer, potentially updated data:
 - Clone this git repository.
@@ -29,13 +43,7 @@ Sample Player Object:
 }
 ```  
    
----  
-  
-#### WARNING:
-  
-If NFL.com changes the structure of their website, it is highly likely that this scraper will no longer function correctly.  
-  
-It relies upon specific CSS selectors to accurately find the data within the team roster pages.
+
 
 
 
