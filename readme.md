@@ -42,6 +42,12 @@ Sample Player Object:
   "team":"arizona cardinals"
 }
 ```  
+
+---
+
+Technologies used for this project include the following:
+
+![List of technologies](tech.png "List of Technologies")
    
 
 
